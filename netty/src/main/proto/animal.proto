@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package cn.hua.netty.grpc_example;
+
+option java_package = "cn.hua.netty.grpc_example";
+option java_outer_classname = "AnimalProto";
+option java_multiple_files = true;
+
+service AnimalService {
+    rpc getRealNameByUserName(MyRequest) returns (MyResponse){}
+
+    rpc getAnimalsByAge(AnimalRequest) returns (stream AnimalResponse){}
+
+    rpc getAnimalResponseListByAges(stream AnimalRequest) returns(AnimalResponseList){}
+
+    rpc biTalk(stream StreamRequest) returns(stream StreamResponse){}
+}
+
+message MyRequest {
+    string username = 1;
+}
+
+message MyResponse {
+    string realname = 2;
+}
+
+message AnimalRequest {
+    int32 age = 1;
+}
+
+message AnimalResponse {
+    string name = 1;
+    int32 age = 2;
+    string city = 3;
+}
+
+message AnimalResponseList {
+    repeated AnimalResponse animalResponse = 1;
+}
+
+message StreamRequest {
+    string request_info = 1;
+}
+
+message StreamResponse {
+    string response_info = 1;
+}
