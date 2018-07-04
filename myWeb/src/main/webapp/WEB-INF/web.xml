@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <servlet>
+        <servlet-name>springMVC</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring-*.xml</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>springMVC</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    <!-- 配置spring提供的编码过滤器 -->
+    <filter>
+        <filter-name>Encoding</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>Encoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--例:spring监听器-->
+    <listener>        <!--用来设定Listener接口-->
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class><!--定义Listener的类名称-->
+    </listener>
+    <!-- 防止Spring内存溢出监听器  -->
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
+     <!--会话超时配置（单位为分钟）-->
+    <session-config><!--如果某个会话在一定时间未被访问，则服务器可以扔掉以节约内存-->
+        <session-timeout>30</session-timeout>
+    </session-config>
+    <!---配置错误页面-->
+    <error-page>  <!--将错误代码(Error Code)或异常(Exception)的种类对应到web应用资源路径.-->
+        <error-code>404</error-code>        <!--HTTP Error code,例如: 404、403-->
+        <location>/error.html</location>         <!--用来设置发生错误或异常时要显示的页面-->
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type><!--设置可能会发生的java异常类型,例如:java.lang.Exception-->
+        <location>/error.html</location>            <!--用来设置发生错误或异常时要显示的页面-->
+    </error-page>
+</web-app>

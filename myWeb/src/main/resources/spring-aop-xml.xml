@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:jms="http://www.springframework.org/schema/jms" xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:oxm="http://www.springframework.org/schema/oxm"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <bean id="logRecord" class="com.aop_xml.LogRecord"></bean>
+    <aop:config>
+        <!-- 切点表达式 -->
+        <aop:pointcut id="declare" expression="execution(* com.service.*.*.*(..))" />
+        <!-- ref引用切面类 order优先级 数字越小优先级越高 -->
+        <aop:aspect ref="logRecord" order="1" >
+            <!-- 前置通知 -->
+            <aop:before method="beforeLogging" pointcut-ref="declare" />
+            <!-- 后置通知 -->
+            <aop:after method="afterLogging" pointcut-ref="declare" />
+            <!-- 返回通知 -->
+            <aop:after-returning method="afterReturnLogging" pointcut-ref="declare" returning="result" />
+            <!-- 异常通知 -->
+            <aop:after-throwing method="afterThrowLogging" pointcut-ref="declare" throwing="e" />
+            <!-- 环绕通知 -->
+            <!--<aop:around method="aroundLogging" pointcut-ref="declare" />-->
+        </aop:aspect>
+    </aop:config>
+    <aop:config>
+        <aop:pointcut id="pointcut" expression="execution(* com.service.*.*.*(..))" />
+        <!-- 如果使用aop:advisor配置,那么切面逻辑必须要实现advice接口才行!否则会失败! -->
+        <aop:advisor advice-ref="logRecord" pointcut-ref="pointcut" />
+    </aop:config>
+</beans>

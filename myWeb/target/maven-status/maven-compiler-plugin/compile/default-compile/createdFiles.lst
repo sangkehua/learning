@@ -1,0 +1,9 @@
+com\util\DynamicProxy$1.class
+com\controller\LoginController.class
+com\mapper\UserMapper.class
+com\util\DynamicProxy.class
+com\entity\User.class
+com\aop_xml\LogRecord.class
+com\service\impl\UserServiceImpl.class
+com\aop\LogRecord.class
+com\service\UserService.class
